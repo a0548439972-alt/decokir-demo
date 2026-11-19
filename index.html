@@ -60,6 +60,10 @@ h1{font-family:'Mikhmoret',sans-serif;font-weight:700;font-size:3.9rem;line-heig
   opacity:0;transform:translateY(.8rem);visibility:hidden;transition:opacity .7s,transform .7s,visibility 0s .7s}
 .done p{font-size:1.25rem;width:100%;margin-bottom:.2rem}
 .hero.show-cta .done{opacity:1;transform:none;visibility:visible;transition:opacity .7s,transform .7s}
+.sub{font-size:1.35rem;margin-top:.7rem;max-width:40rem;opacity:.92}
+.done p strong{color:var(--gold);font-weight:700}
+.done .motto{font-size:1.05rem;opacity:.75;margin:.4rem 0 0}
+.motto span{font-family:'Noa Shalev',sans-serif;font-size:1.3em;color:var(--gold)}
 .again{background:none;border:0;color:var(--ink);font:inherit;font-size:1.1rem;text-decoration:underline;text-underline-offset:.25em;opacity:.85}
 
 /* circle button (studio standard) */
@@ -97,9 +101,11 @@ h1{font-family:'Mikhmoret',sans-serif;font-weight:700;font-size:3.9rem;line-heig
   .logo{width:84px}
   .copy{padding:120px 18px 26px}
   .kicker{font-size:13px}
-  h1{font-size:38px;max-width:none}
+  h1{font-size:34px;max-width:none}
   .done{margin-top:16px;gap:12px}
   .done p{font-size:16px}
+  .sub{font-size:16px;margin-top:8px}
+  .done .motto{font-size:14px}
   .cbtn{font-size:16px}
   .cbtn--small{font-size:14px}
   .again{font-size:15px}
@@ -161,13 +167,15 @@ h1{font-family:'Mikhmoret',sans-serif;font-weight:700;font-size:3.9rem;line-heig
   </header>
 
   <section class="copy">
-    <p class="kicker">צביעה אומנותית ודקורציה · לאה פוגל</p>
-    <h1>כי בדקו קיר, אף קיר<br>הוא לא <span class="word">שבלונה<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 50 4, 110 18, 196 8"/></svg></span></h1>
+    <p class="kicker">יש לך יד של אמנית? · קורס צביעת קירות אומנותית עם לאה פוגל</p>
+    <h1>לומדות לצייר קירות<br><span class="word">ולהתפרנס<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 50 4, 110 18, 196 8"/></svg></span> מזה</h1>
+    <p class="sub">20 שנה בתחום, קבוצות קטנות ועבודה מעשית על קירות אמיתיים.</p>
     <div class="done" id="done">
-      <p>את הקיר הזה לאה ציירה ביד, בסלון של לקוחה.</p>
-      <a class="cbtn" href="https://wa.me/972583257497?text=%D7%94%D7%99%D7%99%20%D7%9C%D7%90%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%A7%D7%99%D7%A8%20%D7%9B%D7%96%D7%94">אני רוצה קיר כזה</a>
-      <a class="cbtn cbtn--ghost" href="https://wa.me/972583257497?text=%D7%94%D7%99%D7%99%20%D7%9C%D7%90%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%A7%D7%95%D7%A8%D7%A1">אני רוצה ללמוד לצייר קירות</a>
+      <p>את הקיר הזה לאה ציירה ביד. <strong>ואת יכולה ללמוד לצייר כמוהו.</strong></p>
+      <a class="cbtn" href="https://wa.me/972583257497?text=%D7%94%D7%99%D7%99%20%D7%9C%D7%90%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%A2%D7%A8%D7%91%20%D7%94%D7%A4%D7%AA%D7%95%D7%97%20%D7%A9%D7%9C%20%D7%94%D7%A7%D7%95%D7%A8%D7%A1">אני רוצה להגיע לערב הפתוח</a>
+      <a class="cbtn cbtn--ghost" href="https://wa.me/972583257497?text=%D7%94%D7%99%D7%99%20%D7%9C%D7%90%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%A7%D7%99%D7%A8%20%D7%9B%D7%96%D7%94%20%D7%91%D7%91%D7%99%D7%AA">אני רוצה קיר כזה בבית</a>
       <button class="again" id="again" type="button">לצבוע מההתחלה</button>
+      <p class="motto">כי בדקו קיר, אף קיר הוא לא <span>שבלונה</span></p>
     </div>
   </section>
 
