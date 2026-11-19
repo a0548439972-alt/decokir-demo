@@ -8,12 +8,14 @@
 <meta name="robots" content="noindex">
 <meta property="og:title" content="דקו קיר - קחי את המכחול וצבעי את הקיר">
 <meta property="og:image" content="assets/after.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Amatic+SC:wght@700&family=Assistant:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preload" as="font" type="font/woff2" href="assets/mikhmoret-bold.woff2" crossorigin>
 <link rel="preload" as="image" href="assets/before.jpg">
 <link rel="preload" as="image" href="assets/after.jpg">
 <style>
+@font-face{font-family:'Mikhmoret';src:url(assets/mikhmoret-light.woff2) format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:'Mikhmoret';src:url(assets/mikhmoret-regular.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Mikhmoret';src:url(assets/mikhmoret-bold.woff2) format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Noa Shalev';src:url(assets/noa-shalev.woff2) format('woff2');font-weight:400;font-display:swap}
 :root{
   --ink:#fbf6ec;
   --gold:#d6b16a;
@@ -24,13 +26,13 @@
 *{box-sizing:border-box;margin:0}
 html{font-size:16px;background:var(--brown)}
 @media (min-width:1024px){ html{font-size:calc(100vw / 90)} }
-body{font-family:'Assistant',system-ui,sans-serif;color:var(--ink);background:var(--brown);overflow:hidden}
+body{font-family:'Mikhmoret',system-ui,sans-serif;font-weight:300;color:var(--ink);background:var(--brown);overflow:hidden}
 
 .hero{position:relative;width:100%;height:100vh;height:100svh;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
 .hero__img,.hero__paint{position:absolute;inset:0;width:100%;height:100%}
-.hero__img{object-fit:cover;object-position:50% 38%;filter:saturate(.92)}
+.hero__img{object-fit:cover;object-position:50% 38%}
 .hero__paint{display:block}
-@media (pointer:fine){ .hero.can-paint{cursor:none} }
+@media (pointer:fine){ .hero{cursor:none} .hero a,.hero button{cursor:pointer} }
 
 /* top bar */
 .bar{position:absolute;inset:0 0 auto 0;display:flex;align-items:center;justify-content:space-between;
@@ -42,32 +44,25 @@ body{font-family:'Assistant',system-ui,sans-serif;color:var(--ink);background:va
 /* bottom copy */
 .copy{position:absolute;inset:auto 0 0 0;z-index:3;padding:9rem 3.4vw 2.6rem;pointer-events:none;
   background:linear-gradient(to top,var(--shade) 0%,rgba(28,19,11,.55) 48%,rgba(28,19,11,0) 100%)}
-.copy > *{pointer-events:auto}
-.kicker{font-size:1rem;letter-spacing:.06em;color:var(--gold);font-weight:600;margin-bottom:.5rem}
-h1{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:3.6rem;line-height:1.08;max-width:42rem;text-shadow:0 .1rem 1.2rem rgba(0,0,0,.35)}
-.word{position:relative;display:inline-block;font-family:'Amatic SC',cursive;font-weight:700;font-size:1.32em;color:var(--gold);line-height:.8;padding-inline:.06em}
+.copy a,.copy button{pointer-events:auto}
+.kicker{font-size:1.1rem;letter-spacing:.04em;color:var(--gold);font-weight:400;margin-bottom:.5rem}
+h1{font-family:'Mikhmoret',sans-serif;font-weight:700;font-size:3.9rem;line-height:1.02;max-width:42rem;text-shadow:0 .1rem 1.2rem rgba(0,0,0,.35)}
+.word{position:relative;display:inline-block;font-family:'Noa Shalev',sans-serif;font-weight:400;font-size:1.12em;color:var(--gold);line-height:.9;padding-inline:.06em}
 .word svg{position:absolute;inset:auto -6% -.2em -6%;width:112%;height:.5em;overflow:visible;z-index:-1}
 .word path{fill:none;stroke:var(--gold-deep);stroke-width:7;stroke-linecap:round;opacity:.75;stroke-dasharray:420;stroke-dashoffset:420;animation:draw 1.1s .9s cubic-bezier(.6,.1,.3,1) forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
 
-.row{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;margin-top:1.4rem;min-height:3.4rem}
-.hint{display:flex;align-items:center;gap:.7rem;font-size:1.25rem;font-weight:600}
-.hint svg{width:2.1rem;height:2.1rem;flex:none;animation:nudge 1.8s ease-in-out infinite}
-@keyframes nudge{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(-.35rem,-.15rem) rotate(-10deg)}}
-.meter{width:9rem;height:.3rem;border-radius:1rem;background:rgba(251,246,236,.25);overflow:hidden}
-.meter i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s}
-.done{display:none;flex-wrap:wrap;align-items:center;gap:1rem}
-.done p{font-size:1.2rem;width:100%;margin-bottom:.2rem}
-.hero.is-done .hint,.hero.is-done .meter{display:none}
-.hero.is-done .done{display:flex;animation:rise .7s ease both}
-@keyframes rise{from{opacity:0;transform:translateY(.8rem)}to{opacity:1;transform:none}}
-.again{background:none;border:0;color:var(--ink);font:inherit;font-size:1.05rem;text-decoration:underline;text-underline-offset:.25em;cursor:pointer;opacity:.85}
+.done{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;margin-top:1.4rem;
+  opacity:0;transform:translateY(.8rem);visibility:hidden;transition:opacity .7s,transform .7s,visibility 0s .7s}
+.done p{font-size:1.25rem;width:100%;margin-bottom:.2rem}
+.hero.show-cta .done{opacity:1;transform:none;visibility:visible;transition:opacity .7s,transform .7s}
+.again{background:none;border:0;color:var(--ink);font:inherit;font-size:1.1rem;text-decoration:underline;text-underline-offset:.25em;opacity:.85}
 
 /* circle button (studio standard) */
 .cbtn{--cbtn-bg:var(--gold);--cbtn-fill:var(--ink);--cbtn-ink:var(--brown);--cbtn-ink-hover:var(--brown);
   position:relative;overflow:hidden;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:.5em;
-  padding:.85em 1.7em;border:0;border-radius:999px;cursor:pointer;background:var(--cbtn-bg);color:var(--cbtn-ink);
-  font:inherit;font-size:1.1rem;font-weight:600;text-decoration:none;transition:color .45s ease}
+  padding:.85em 1.7em;border:0;border-radius:999px;background:var(--cbtn-bg);color:var(--cbtn-ink);
+  font:inherit;font-size:1.15rem;font-weight:700;text-decoration:none;transition:color .45s ease}
 .cbtn::before{content:"";position:absolute;z-index:-1;left:var(--x,50%);top:var(--y,50%);width:var(--d,250%);aspect-ratio:1;
   border-radius:50%;background:var(--cbtn-fill);transform:translate(-50%,-50%) scale(0);transition:transform .55s cubic-bezier(.22,.61,.36,1)}
 .cbtn.is-in::before{transform:translate(-50%,-50%) scale(1)}
@@ -75,34 +70,45 @@ h1{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:3.6rem;line-he
 .cbtn--ghost{--cbtn-bg:rgba(251,246,236,.12);--cbtn-ink:var(--ink);--cbtn-fill:var(--gold);--cbtn-ink-hover:var(--brown);box-shadow:inset 0 0 0 1.5px rgba(251,246,236,.7)}
 .cbtn--small{font-size:.95rem;padding:.6em 1.3em}
 
-/* brush cursor */
-.brush{position:absolute;left:0;top:0;width:4.6rem;height:4.6rem;z-index:4;pointer-events:none;opacity:0;
-  transform:translate(-9%,-91%);transition:opacity .25s;will-change:left,top}
-.brush.on{opacity:1}
-.brush svg{width:100%;height:100%;display:block;filter:drop-shadow(.15rem .3rem .35rem rgba(0,0,0,.35))}
+/* brush cursor: .brush sits exactly on the painting point */
+.brush{position:absolute;left:0;top:0;width:0;height:0;z-index:4;pointer-events:none;transition:opacity .25s}
+.brush.off{opacity:0}
+.brush__tool{position:absolute;width:3rem;height:16rem;left:-1.5rem;top:-15.4rem;
+  transform-origin:50% 96.3%;transform:rotate(var(--rot,32deg));will-change:transform}
+.brush__tool svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(.5rem .7rem .55rem rgba(40,25,10,.35))}
+.brush.idle .brush__tool{animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:rotate(var(--rot,32deg)) translateY(0)}50%{transform:rotate(calc(var(--rot,32deg) - 7deg)) translateY(-.5rem)}}
+
+/* rotating text ring around the brush tip */
+.ring{position:absolute;width:12rem;height:12rem;left:-6rem;top:-6rem;transition:opacity .6s,transform .6s}
+.ring svg{width:100%;height:100%;display:block;overflow:visible;animation:spin 14s linear infinite}
+.ring text{font-family:'Mikhmoret',sans-serif;font-weight:700;font-size:17px;fill:var(--brown)}
+.ring .halo{fill:rgba(251,246,236,.42);stroke:rgba(179,139,69,.35);stroke-width:.8}
+.ring .dot{fill:var(--gold-deep)}
+.brush.painted .ring{opacity:0;transform:scale(.6)}
+@keyframes spin{to{transform:rotate(-360deg)}}
 
 @media (max-width:1023px){
   .bar{padding:16px 18px}
   .logo{width:64px}
   .copy{padding:120px 18px 26px}
   .kicker{font-size:13px}
-  h1{font-size:34px;max-width:none}
-  .row{margin-top:16px;gap:14px}
-  .hint{font-size:17px}
-  .hint svg{width:28px;height:28px}
-  .meter{width:110px}
+  h1{font-size:38px;max-width:none}
+  .done{margin-top:16px;gap:12px}
   .done p{font-size:16px}
   .cbtn{font-size:16px}
   .cbtn--small{font-size:14px}
-  .brush{width:64px;height:64px}
+  .again{font-size:15px}
+  .brush__tool{width:34px;height:182px;left:-17px;top:-175.3px}
+  .ring{width:150px;height:150px;left:-75px;top:-75px}
 }
 @media (prefers-reduced-motion:reduce){
   .cbtn::before{display:none}
   .cbtn{transition:background-color .2s,color .2s}
   .cbtn:hover,.cbtn:focus-visible{background:var(--cbtn-fill);color:var(--cbtn-ink-hover)}
   .word path{animation:none;stroke-dashoffset:0}
-  .hint svg{animation:none}
-  .hero.is-done .done{animation:none}
+  .ring svg,.brush.idle .brush__tool{animation:none}
+  .done,.hero.show-cta .done{transition:none}
 }
 </style>
 </head>
@@ -119,40 +125,56 @@ h1{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:3.6rem;line-he
   <section class="copy">
     <p class="kicker">צביעה אומנותית ודקורציה · לאה פוגל</p>
     <h1>כי בדקו קיר, אף קיר<br>הוא לא <span class="word">שבלונה<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 50 4, 110 18, 196 8"/></svg></span></h1>
-    <div class="row">
-      <p class="hint" id="hint">
-        <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#brush-icon"/></svg>
-        <span id="hintText">קחי את המכחול וצבעי את הקיר</span>
-      </p>
-      <div class="meter" aria-hidden="true"><i id="meter"></i></div>
-      <div class="done" id="done">
-        <p>את הקיר הזה לאה ציירה ביד, בסלון של לקוחה.</p>
-        <a class="cbtn" href="https://wa.me/972583257497?text=%D7%94%D7%99%D7%99%20%D7%9C%D7%90%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%A7%D7%99%D7%A8%20%D7%9B%D7%96%D7%94">אני רוצה קיר כזה</a>
-        <a class="cbtn cbtn--ghost" href="https://wa.me/972583257497?text=%D7%94%D7%99%D7%99%20%D7%9C%D7%90%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%A7%D7%95%D7%A8%D7%A1">אני רוצה ללמוד לצייר קירות</a>
-        <button class="again" id="again" type="button">לצבוע שוב</button>
-      </div>
+    <div class="done" id="done">
+      <p>את הקיר הזה לאה ציירה ביד, בסלון של לקוחה.</p>
+      <a class="cbtn" href="https://wa.me/972583257497?text=%D7%94%D7%99%D7%99%20%D7%9C%D7%90%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%A7%D7%99%D7%A8%20%D7%9B%D7%96%D7%94">אני רוצה קיר כזה</a>
+      <a class="cbtn cbtn--ghost" href="https://wa.me/972583257497?text=%D7%94%D7%99%D7%99%20%D7%9C%D7%90%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%A7%D7%95%D7%A8%D7%A1">אני רוצה ללמוד לצייר קירות</a>
+      <button class="again" id="again" type="button">לצבוע מההתחלה</button>
     </div>
   </section>
 
-  <div class="brush" id="brush" aria-hidden="true">
-    <svg viewBox="0 0 64 64"><use href="#brush-icon"/></svg>
+  <div class="brush idle" id="brush" aria-hidden="true">
+    <div class="ring">
+      <svg viewBox="-80 -80 160 160">
+        <circle class="halo" r="64"/>
+        <defs><path id="ringPath" d="M 0,-52 a 52,52 0 1,1 -0.01,0"/></defs>
+        <text text-anchor="middle"><textPath href="#ringPath" startOffset="50%" textLength="318" lengthAdjust="spacing">צבעי את הקיר • צבעי את הקיר •</textPath></text>
+        <circle class="dot" r="3.2"/>
+      </svg>
+    </div>
+    <div class="brush__tool">
+      <!-- tip of the bristles is at (0,0); the brush stands up from it -->
+      <svg viewBox="-12 -307 24 319">
+        <defs>
+          <linearGradient id="wood" x1="0" x2="1">
+            <stop offset="0" stop-color="#2b170a"/><stop offset=".35" stop-color="#7d4a22"/><stop offset=".5" stop-color="#a5683a"/><stop offset=".75" stop-color="#5e3517"/><stop offset="1" stop-color="#26140a"/>
+          </linearGradient>
+          <linearGradient id="metal" x1="0" x2="1">
+            <stop offset="0" stop-color="#7c6332"/><stop offset=".3" stop-color="#e9d39b"/><stop offset=".45" stop-color="#fff4cf"/><stop offset=".7" stop-color="#b8974f"/><stop offset="1" stop-color="#6d5428"/>
+          </linearGradient>
+          <linearGradient id="hair" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#e9d6a8"/><stop offset=".5" stop-color="#d1ae67"/><stop offset=".78" stop-color="#b8893f"/><stop offset="1" stop-color="#8f6427"/>
+          </linearGradient>
+          <linearGradient id="paintG" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#e7c27a"/><stop offset="1" stop-color="#a87a33"/>
+          </linearGradient>
+        </defs>
+        <!-- handle -->
+        <path d="M-5.5 -96 C -6.5 -170, -7.2 -240, -5.6 -292 C -5 -306, 5 -306, 5.6 -292 C 7.2 -240, 6.5 -170, 5.5 -96 Z" fill="url(#wood)"/>
+        <path d="M-2.4 -110 C -3 -180, -3.2 -240, -2.2 -288" stroke="rgba(255,226,180,.35)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <!-- ferrule -->
+        <path d="M-7.6 -50 L -6 -100 L 6 -100 L 7.6 -50 Z" fill="url(#metal)"/>
+        <path d="M-7.2 -60 H 7.2 M -6.6 -66 H 6.6 M -6.1 -91 H 6.1" stroke="#7c6332" stroke-width="1.1" opacity=".75"/>
+        <!-- bristles -->
+        <path d="M-7.8 -50 C -9.5 -34, -8 -16, -3.2 -3 C -1.8 1, 1.8 1, 3.2 -3 C 8 -16, 9.5 -34, 7.8 -50 Z" fill="url(#hair)"/>
+        <path d="M-4.5 -48 C -5 -30, -4 -16, -1.6 -5 M 0 -48 C 0 -30, 0 -15, 0 -3 M 4.5 -48 C 5 -30, 4 -16, 1.6 -5 M -6.6 -46 C -7 -32, -6 -20, -3.5 -10 M 6.6 -46 C 7 -32, 6 -20, 3.5 -10" stroke="#9a7334" stroke-width=".7" fill="none" opacity=".55"/>
+        <!-- wet paint on the tip -->
+        <path d="M-7.6 -24 C -6 -12, -4.5 -6, -3.2 -3 C -1.8 1, 1.8 1, 3.2 -3 C 4.5 -6, 6 -12, 7.6 -24 C 4 -20, 2 -27, 0 -22 C -2 -27, -4 -19, -7.6 -24 Z" fill="url(#paintG)"/>
+        <ellipse cx="-2.2" cy="-12" rx="1" ry="3.2" fill="#fff3d4" opacity=".6"/>
+      </svg>
+    </div>
   </div>
 </main>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="brush-icon" viewBox="0 0 64 64">
-    <!-- handle -->
-    <path d="M60 4 C 57 3, 54 5, 52 7 L 31 30 L 36 35 L 58 12 C 61 9, 62 6, 60 4 Z" fill="#6b4a2b"/>
-    <path d="M58 6 C 56 6, 54 8, 53 9" stroke="#9c7349" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-    <!-- ferrule -->
-    <path d="M27 30 L 32 25 L 41 34 L 36 39 Z" fill="#d9c08a"/>
-    <path d="M28.5 31.5 L 33.5 26.5 M31 34 L 36 29" stroke="#a88a52" stroke-width="1.2"/>
-    <!-- bristles with gold paint -->
-    <path d="M27 30 L 36 39 C 32 45, 22 52, 8 58 C 6 59, 5 58, 6 56 C 12 42, 19 34, 27 30 Z" fill="#c9a35c"/>
-    <path d="M14 50 C 18 44, 22 39, 27 35 M10 55 C 15 47, 20 41, 24 37" stroke="#a7823f" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-    <path d="M8 58 C 6 59, 5 58, 6 56 C 7 54, 9 53, 10 54 C 11 56, 10 57, 8 58 Z" fill="#e6c98a"/>
-  </symbol>
-</svg>
 
 <script>
 (function(){
@@ -160,9 +182,8 @@ h1{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:3.6rem;line-he
   var canvas = document.getElementById('paint');
   var ctx = canvas.getContext('2d');
   var brushEl = document.getElementById('brush');
-  var meter = document.getElementById('meter');
+  var tool = brushEl.querySelector('.brush__tool');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var finePointer = matchMedia('(pointer: fine)').matches;
 
   var after = new Image(); after.src = 'assets/after.jpg';
   var mask = document.createElement('canvas'), mctx = mask.getContext('2d');
@@ -172,8 +193,10 @@ h1{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:3.6rem;line-he
   // the painted wall inside after.jpg (image pixels, 1599 x 916)
   var IMG_W = 1599, IMG_H = 916, WALL = { x: 186, y: 52, w: 1252, h: 560 };
   var POS_X = .5, POS_Y = .38;
+  var CTA_AT = .55, FULL_AT = .9;
 
-  var W = 0, H = 0, dpr = 1, cover = null, dirty = true, done = false, fade = 0, last = null, bristles = [];
+  var W = 0, H = 0, dpr = 1, cover = null, dirty = true, state = 'paint', fade = 0, last = null, bristles = [];
+  var moved = false, cur = { x: 0, y: 0 }, rot = 32, rotTarget = 32;
 
   function layout(){
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -188,15 +211,27 @@ h1{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:3.6rem;line-he
     var s = Math.max(W / IMG_W, H / IMG_H);
     var dw = IMG_W * s, dh = IMG_H * s;
     cover = { s: s, x: (W - dw) * POS_X, y: (H - dh) * POS_Y, w: dw, h: dh };
+    if (!moved) park();
     dirty = true;
   }
 
-  function radius(){ return Math.max(26, Math.min(W, H * 1.6) * 0.045); }
+  function wallRect(){
+    return { x: cover.x + WALL.x * cover.s, y: cover.y + WALL.y * cover.s, w: WALL.w * cover.s, h: WALL.h * cover.s };
+  }
+  // before the first move, the brush waits in the middle of the wall
+  function park(){
+    var r = wallRect();
+    var x = Math.min(Math.max(r.x + r.w * .5, W * .2), W * .8);
+    var y = Math.min(Math.max(r.y + r.h * .42, H * .25), H * .5);
+    cur.x = x; cur.y = y; place(x, y);
+  }
+
+  function radius(){ return Math.max(15, Math.min(W, H * 1.6) * 0.028); }
 
   function newStroke(){
     bristles = [];
-    var n = 16;
-    for (var i = 0; i < n; i++) bristles.push({ off: (i / (n - 1)) * 2 - 1 + (Math.random() - .5) * .12, w: .5 + Math.random() * .9, a: .35 + Math.random() * .55 });
+    var n = 14;
+    for (var i = 0; i < n; i++) bristles.push({ off: (i / (n - 1)) * 2 - 1 + (Math.random() - .5) * .14, w: .5 + Math.random() * .9, a: .3 + Math.random() * .6 });
   }
 
   function paintSeg(x0, y0, x1, y1){
@@ -205,24 +240,26 @@ h1{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:3.6rem;line-he
     var r = radius();
     var nx = -dy / len, ny = dx / len;
     mctx.lineCap = 'round';
-    // soft body
-    mctx.strokeStyle = 'rgba(0,0,0,.55)'; mctx.lineWidth = r * 1.35;
+    mctx.strokeStyle = 'rgba(0,0,0,.6)'; mctx.lineWidth = r * 1.3;
     mctx.beginPath(); mctx.moveTo(x0, y0); mctx.lineTo(x1, y1); mctx.stroke();
-    // bristle streaks
     for (var i = 0; i < bristles.length; i++){
       var b = bristles[i], ox = nx * b.off * r, oy = ny * b.off * r;
       mctx.strokeStyle = 'rgba(0,0,0,' + b.a + ')';
-      mctx.lineWidth = r * .16 * b.w;
+      mctx.lineWidth = r * .17 * b.w;
       mctx.beginPath(); mctx.moveTo(x0 + ox, y0 + oy); mctx.lineTo(x1 + ox, y1 + oy); mctx.stroke();
     }
     dirty = true;
+    if (!brushEl.classList.contains('painted')) brushEl.classList.add('painted');
   }
 
-  function moveBrush(x, y){ brushEl.style.left = x + 'px'; brushEl.style.top = y + 'px'; }
+  function place(x, y){ brushEl.style.transform = 'translate(' + x + 'px,' + y + 'px)'; }
 
   function render(){
     requestAnimationFrame(render);
-    if (!mask.width || !mask.height || !W) { if (hero.clientWidth) layout(); return; }
+    if (!W || !mask.width) { if (hero.clientWidth) layout(); return; }
+    // the brush leans with the movement
+    rot += (rotTarget - rot) * .12; rotTarget += (32 - rotTarget) * .06;
+    tool.style.setProperty('--rot', rot.toFixed(2) + 'deg');
     if (dirty && after.complete && after.naturalWidth && cover){
       dirty = false;
       ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -238,13 +275,11 @@ h1{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:3.6rem;line-he
     }
   }
 
-  // how much of the wall is painted
   function coverage(){
     if (!cover || !mask.width || !mask.height) return 0;
-    var wx = cover.x + WALL.x * cover.s, wy = cover.y + WALL.y * cover.s;
-    var ww = WALL.w * cover.s, wh = WALL.h * cover.s;
-    var sx = Math.max(0, wx), sy = Math.max(0, wy);
-    var sw = Math.min(W, wx + ww) - sx, sh = Math.min(H, wy + wh) - sy;
+    var r = wallRect();
+    var sx = Math.max(0, r.x), sy = Math.max(0, r.y);
+    var sw = Math.min(W, r.x + r.w) - sx, sh = Math.min(H, r.y + r.h) - sy;
     if (sw <= 0 || sh <= 0) return 0;
     pctx.clearRect(0, 0, 60, 34);
     pctx.drawImage(mask, sx * dpr, sy * dpr, sw * dpr, sh * dpr, 0, 0, 60, 34);
@@ -253,96 +288,72 @@ h1{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:3.6rem;line-he
     return hit / (60 * 34);
   }
 
-  var THRESHOLD = .42;
   setInterval(function(){
-    if (done) return;
+    if (state === 'full') return;
     var c = coverage();
-    meter.style.width = Math.min(100, c / THRESHOLD * 100) + '%';
-    if (c >= THRESHOLD) finish();
+    if (c >= CTA_AT) hero.classList.add('show-cta');
+    if (c >= FULL_AT) finish();
   }, 300);
 
   function finish(){
-    done = true;
-    hero.classList.add('is-done');
-    brushEl.classList.remove('on');
-    hero.classList.remove('can-paint');
+    state = 'full';
     if (reduce){ fade = 1; dirty = true; return; }
     var t0 = performance.now();
     (function step(t){
-      fade = Math.min(1, (t - t0) / 1400); dirty = true;
+      fade = Math.min(1, (t - t0) / 1200); dirty = true;
       if (fade < 1) requestAnimationFrame(step);
     })(t0);
   }
 
   function reset(){
-    done = false; fade = 0; last = null;
+    state = 'paint'; fade = 0; last = null;
     mctx.save(); mctx.setTransform(1,0,0,1,0,0); mctx.clearRect(0, 0, mask.width, mask.height); mctx.restore();
-    meter.style.width = '0';
-    hero.classList.remove('is-done');
-    hero.classList.add('can-paint');
+    hero.classList.remove('show-cta');
+    brushEl.classList.remove('painted');
     dirty = true;
   }
-  document.getElementById('again').addEventListener('click', function(e){ e.stopPropagation(); reset(); if (!reduce) intro(); });
+  document.getElementById('again').addEventListener('click', function(e){ e.stopPropagation(); reset(); });
 
   function local(e){ var r = hero.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
   function onUI(e){ return e.target.closest && e.target.closest('a,button'); }
 
-  var touching = false, introRunning = false;
-  hero.addEventListener('pointerdown', function(e){
-    if (done || onUI(e)) return;
-    introRunning = false;
-    touching = true; newStroke(); last = local(e);
-    if (e.pointerType !== 'mouse') { moveBrush(last.x, last.y); brushEl.classList.add('on'); }
-    paintSeg(last.x, last.y, last.x + .6, last.y + .6);
-  });
-  hero.addEventListener('pointermove', function(e){
-    if (done) return;
-    var p = local(e);
-    if (onUI(e)) { brushEl.classList.remove('on'); last = null; return; }
-    var isMouse = e.pointerType === 'mouse';
-    if (isMouse){
-      introRunning = false;
-      brushEl.classList.add('on'); moveBrush(p.x, p.y);
-      if (!last) newStroke();
-      if (last) paintSeg(last.x, last.y, p.x, p.y);
-      last = p;
-    } else if (touching){
-      moveBrush(p.x, p.y);
+  function moveTo(p, paint){
+    if (!moved){ moved = true; brushEl.classList.remove('idle'); }
+    rotTarget = Math.max(12, Math.min(52, rotTarget + (p.x - cur.x) * .35));
+    cur.x = p.x; cur.y = p.y; place(p.x, p.y);
+    if (paint && state === 'paint'){
       if (last) paintSeg(last.x, last.y, p.x, p.y);
       last = p;
     }
+  }
+
+  var touching = false;
+  hero.addEventListener('pointerdown', function(e){
+    if (onUI(e)) return;
+    var p = local(e);
+    if (e.pointerType !== 'mouse'){ touching = true; newStroke(); last = null; brushEl.classList.remove('off'); moveTo(p, true); }
+    if (state === 'paint'){ newStroke(); paintSeg(p.x, p.y, p.x + .6, p.y + .6); last = p; }
   });
-  function endTouch(){ touching = false; last = null; if (!finePointer) brushEl.classList.remove('on'); }
+  hero.addEventListener('pointermove', function(e){
+    var p = local(e);
+    if (onUI(e)) { brushEl.classList.add('off'); last = null; return; }
+    if (e.pointerType === 'mouse'){
+      brushEl.classList.remove('off');
+      if (!last) newStroke();
+      moveTo(p, true);
+    } else if (touching){
+      moveTo(p, true);
+    }
+  });
+  function endTouch(){ touching = false; last = null; }
   hero.addEventListener('pointerup', endTouch);
   hero.addEventListener('pointercancel', endTouch);
-  hero.addEventListener('pointerleave', function(){ last = null; brushEl.classList.remove('on'); });
-
-  // a first stroke that shows what to do
-  function intro(){
-    if (!cover || !mask.width) { setTimeout(intro, 300); return; }
-    introRunning = true; newStroke();
-    var wx = cover.x + WALL.x * cover.s, wy = cover.y + WALL.y * cover.s, ww = WALL.w * cover.s, wh = WALL.h * cover.s;
-    var x0 = Math.max(W * .12, wx + ww * .12), x1 = Math.min(W * .88, wx + ww * .88);
-    var yMid = Math.max(H * .22, Math.min(H * .45, wy + wh * .38)), amp = Math.min(H * .07, wh * .16);
-    var t0 = performance.now(), dur = 1700, prev = null;
-    brushEl.classList.add('on');
-    (function step(t){
-      if (!introRunning){ return; }
-      var k = Math.min(1, (t - t0) / dur), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-      var x = x1 + (x0 - x1) * e, y = yMid + Math.sin(e * Math.PI * 2) * amp;
-      moveBrush(x, y);
-      if (prev) paintSeg(prev.x, prev.y, x, y);
-      prev = { x: x, y: y };
-      if (k < 1) requestAnimationFrame(step);
-      else { introRunning = false; brushEl.classList.remove('on'); }
-    })(t0);
-  }
+  hero.addEventListener('pointerleave', function(e){ last = null; if (e.pointerType === 'mouse') brushEl.classList.add('off'); });
+  hero.addEventListener('pointerenter', function(e){ if (e.pointerType === 'mouse') brushEl.classList.remove('off'); });
 
   window.addEventListener('resize', layout);
   layout();
-  hero.classList.add('can-paint');
-  after.onload = function(){ dirty = true; if (!reduce) setTimeout(intro, 700); };
-  if (after.complete) after.onload();
+  after.onload = function(){ dirty = true; };
   requestAnimationFrame(render);
 })();
 
